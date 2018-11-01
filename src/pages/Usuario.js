@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import axios from 'axios';
 
 import Card from './../components/Card/Card'
+import ModalAlbum from './../components/ModalAlbum/ModalAlbum';
 
 class Usuario extends Component {
 
@@ -10,7 +11,9 @@ class Usuario extends Component {
     constructor(){
         super();
         this.state = {
-            usuarios : []
+            usuarios : [],
+            abrir_modal : false, 
+            album : []
         }
     }
 
@@ -28,14 +31,17 @@ class Usuario extends Component {
         return this.state.usuarios.map((e, i) => 
             <div className="col-md-4">
                 {/* <Card key={i} id={e.id} name = {e.name} /> */}
-                <Card uno = {this.consulta_album.bind(this)} {...e} />
+                <Card consulta_album = {this.consulta_album.bind(this)} {...e} />
             </div>
         );
     }
 
     consulta_album(id){
         axios.get(this.url+"/albums?userId="+id).then((respuesta)=>{
-            console.log(respuesta);
+            this.setState({
+                abrir_modal : true,
+                album : respuesta.data
+            });
         }).catch(error=>{
             console.log(error);
         });
@@ -44,10 +50,11 @@ class Usuario extends Component {
     render(){
         return (
             <div>
-                <h1 className="text-center">Usuarios</h1>
+                <h1 className="text-center">Usuarios {this.state.abrir_modal.toString()}</h1>
                 <div className="row">
                     {this.pintar_usuarios()}
                 </div>
+                <ModalAlbum abrir_modal = {this.state.abrir_modal} album = {this.state.album} />
             </div>
         );
     }

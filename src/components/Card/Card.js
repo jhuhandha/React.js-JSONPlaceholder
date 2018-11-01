@@ -39,7 +39,7 @@ class Card extends Component {
 								</span>
 							</li>
                             <li className="active">
-                                <button onClick={()=>{ this.props.uno(this.props.id) }} type="button" className="btn btn-primary btn-block">Ver Album</button>
+                                <button onClick={()=>{ this.props.consulta_album(this.props.id) }} type="button" className="btn btn-primary btn-block">Ver Album</button>
                             </li>
 						</ul>
 					</div>
